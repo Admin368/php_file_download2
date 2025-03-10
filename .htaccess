@@ -1,0 +1,45 @@
+# Enable directory listing
+Options +Indexes
+
+# Configure directory listing display
+IndexOptions FancyIndexing HTMLTable VersionSort NameWidth=* DescriptionWidth=* SuppressRules
+IndexIgnore .htaccess .htpasswd .DS_Store .git
+IndexStyleSheet /style.css
+
+# Enable compression for faster downloads
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/octet-stream
+</IfModule>
+
+# Force file download instead of displaying in browser
+<FilesMatch "\.(zip|rar|gz|tar|pdf|doc|docx|xls|xlsx|ppt|pptx|mp3|mp4)$">
+    ForceType application/octet-stream
+    Header set Content-Disposition attachment
+</FilesMatch>
+
+# Enable caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/octet-stream "access plus 1 year"
+</IfModule>
+
+# Prevent hotlinking
+SetEnvIf Referer "^$" local_ref=1
+SetEnvIf Referer "^http(s)?://([^/]+\.)?(yourdomain\.com)/" local_ref=1
+
+# Protect upload.php
+<Files "upload.php">
+    Order Allow,Deny
+    Allow from YOUR_IP_ADDRESS
+    Deny from all
+</Files>
+
+# Increase upload limits if needed
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+php_value max_execution_time 300
+php_value max_input_time 300 
