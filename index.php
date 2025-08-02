@@ -228,9 +228,7 @@ $is_root_directory = empty($current_dir);
         .header h1 {
             color: #2c3e50;
             margin-bottom: 10px;
-        }
-
-        .upload-link {
+        }        .upload-link {
             display: inline-block;
             background: #3498db;
             color: white;
@@ -238,10 +236,25 @@ $is_root_directory = empty($current_dir);
             text-decoration: none;
             border-radius: 4px;
             margin-top: 10px;
+            margin-right: 10px;
         }
 
         .upload-link:hover {
             background: #2980b9;
+        }
+
+        .json-link {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .json-link:hover {
+            background: #219a52;
         }
 
         .breadcrumbs {
@@ -379,6 +392,7 @@ $is_root_directory = empty($current_dir);
                 <p>Browse and download files from this directory</p>
             <?php endif; ?>
             <a href="upload.php" class="upload-link">📤 Upload Files</a>
+            <a href="json" class="json-link">📋 JSON API</a>
         </div>
 
         <div class="breadcrumbs">
