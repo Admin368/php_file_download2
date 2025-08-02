@@ -1,5 +1,18 @@
-# Enable directory listing
+# Basic directory access
 Options +Indexes
+Order Allow,Deny
+Allow from all
+
+# Basic PHP configuration
+<FilesMatch "\.php$">
+    Require all granted
+</FilesMatch>
+
+# Allow access to specific file types
+<Files *>
+    Order Allow,Deny
+    Allow from all
+</Files>
 
 # Configure directory listing display
 IndexOptions FancyIndexing HTMLTable VersionSort NameWidth=* DescriptionWidth=* SuppressRules
@@ -27,19 +40,10 @@ IndexStyleSheet /style.css
     ExpiresByType application/octet-stream "access plus 1 year"
 </IfModule>
 
-# Prevent hotlinking
-SetEnvIf Referer "^$" local_ref=1
-SetEnvIf Referer "^http(s)?://([^/]+\.)?(yourdomain\.com)/" local_ref=1
-
-# Protect upload.php
-<Files "upload.php">
-    Order Allow,Deny
-    Allow from YOUR_IP_ADDRESS
-    Deny from all
-</Files>
-
-# Increase upload limits if needed
-php_value upload_max_filesize 100M
-php_value post_max_size 100M
-php_value max_execution_time 300
-php_value max_input_time 300 
+# PHP settings (only if allowed in Apache configuration)
+<IfModule mod_php.c>
+    php_value upload_max_filesize 100M
+    php_value post_max_size 100M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule> 
