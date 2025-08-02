@@ -1,49 +1,52 @@
-# Basic directory access
+# Simple File Server Configuration
+
+# Enable directory listing
 Options +Indexes
-Order Allow,Deny
-Allow from all
+DirectoryIndex index.php index.html
 
-# Basic PHP configuration
-<FilesMatch "\.php$">
+# Hide sensitive files from listing
+IndexIgnore .htaccess .htpasswd .DS_Store *.log *.conf *.ini
+
+# Allow access to main PHP files
+<Files "index.php">
     Require all granted
-</FilesMatch>
-
-# Allow access to specific file types
-<Files *>
-    Order Allow,Deny
-    Allow from all
 </Files>
 
-# Configure directory listing display
-IndexOptions FancyIndexing HTMLTable VersionSort NameWidth=* DescriptionWidth=* SuppressRules
-IndexIgnore .htaccess .htpasswd .DS_Store .git
-IndexStyleSheet /style.css
+<Files "upload.php">
+    Require all granted
+</Files>
 
-# Enable compression for faster downloads
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/octet-stream
-</IfModule>
+# Security for sensitive files
+<Files ".htaccess">
+    Require all denied
+</Files>
 
-# Force file download instead of displaying in browser
-<FilesMatch "\.(zip|rar|gz|tar|pdf|doc|docx|xls|xlsx|ppt|pptx|mp3|mp4)$">
-    ForceType application/octet-stream
-    Header set Content-Disposition attachment
+<Files ".htpasswd">
+    Require all denied
+</Files>
+
+# Deny access to system files
+<FilesMatch "\.(log|conf|ini|bak|backup)$">
+    Require all denied
 </FilesMatch>
 
-# Enable caching
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType application/octet-stream "access plus 1 year"
+# Force download for archives and documents
+<FilesMatch "\.(zip|rar|7z|pdf|doc|docx|xls|xlsx|apk|exe|msi)$">
+    Header set Content-Disposition "attachment"
+    Header set Content-Type "application/octet-stream"
+</FilesMatch>
+
+# PHP upload settings
+<IfModule mod_php.c>
+    php_value upload_max_filesize 500M
+    php_value post_max_size 500M
+    php_value max_execution_time 600
+    php_value memory_limit 256M
 </IfModule>
 
-# PHP settings (only if allowed in Apache configuration)
-<IfModule mod_php.c>
-    php_value upload_max_filesize 100M
-    php_value post_max_size 100M
-    php_value max_execution_time 300
-    php_value max_input_time 300
-</IfModule> 
+# Additional security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>

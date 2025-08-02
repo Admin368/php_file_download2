@@ -3,10 +3,10 @@ session_start();
 
 // Configuration
 $config = [
-    'username' => 'admin',
-    'password' => 'your_secure_password', // Change this to a secure password
+    'username' => 'admin368',
+    'password' => '36880076',
     'upload_dir' => __DIR__ . '/',
-    'allowed_types' => ['zip', 'rar', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt']
+    'allowed_types' => ['zip', 'rar', '7z', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'mp4', 'avi', 'apk', 'exe', 'msi']
 ];
 
 // Handle login
@@ -218,10 +218,14 @@ $subfolders = getSubfolders($config['upload_dir']);
                 <button type="submit" name="login" class="button">Login</button>
             </form>
         </div>
-    <?php else: ?>
-        <div class="upload-container">
-            <a href="?logout" class="button logout">Logout</a>
-            <h1>File Upload</h1>
+    <?php else: ?>        <div class="upload-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1>File Upload Manager</h1>
+                <div>
+                    <a href="index.php" class="button" style="margin-right: 10px;">📁 Browse Files</a>
+                    <a href="?logout" class="button logout">Logout</a>
+                </div>
+            </div>
             
             <div class="folder-controls">
                 <h3>Folder Management</h3>

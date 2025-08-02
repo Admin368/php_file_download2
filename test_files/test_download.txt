@@ -1,0 +1,10 @@
+This is a test file to verify the download functionality.
+You can download this file to test if the file server is working correctly.
+
+File server features:
+- Browse directories
+- Download files
+- Upload files (with authentication)
+- Secure file management
+
+Test completed successfully!

@@ -1,0 +1,21 @@
+# Simple File Server Configuration - Backup
+
+# Enable directory listing
+Options +Indexes
+DirectoryIndex index.php index.html
+
+# Basic security
+<Files ".ht*">
+    Require all denied
+</Files>
+
+# Force download for common file types
+<FilesMatch "\.(zip|rar|7z|pdf|doc|docx|xls|xlsx|apk|exe)$">
+    Header set Content-Disposition "attachment"
+</FilesMatch>
+
+# PHP settings
+<IfModule mod_php.c>
+    php_value upload_max_filesize 100M
+    php_value post_max_size 100M
+</IfModule>
